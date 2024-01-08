@@ -9,7 +9,7 @@ export const PlayerCountInput = React.memo(() => {
                 <FormControl mb={2} isInvalid={Boolean(meta.touched && meta.error)}>
                     <FormLabel>玩家人數</FormLabel>
                     <NumberInput defaultValue={2} min={2} max={20} value={field.value} onChange={value => form.setFieldValue(field.name, value)}>
-                        <NumberInputField />
+                        <NumberInputField bgColor="white" />
                         <NumberInputStepper>
                             <NumberIncrementStepper />
                             <NumberDecrementStepper />

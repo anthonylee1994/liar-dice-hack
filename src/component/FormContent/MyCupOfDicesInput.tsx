@@ -11,28 +11,35 @@ export const MyCupOfDicesInput = React.memo(() => {
                 <Flex alignItems="flex-end">
                     <FormControl isInvalid={Boolean(meta.touched && meta.error)}>
                         <FormLabel>我的骰子</FormLabel>
-                        <HStack w="full">
-                            <PinInput isInvalid={Boolean(meta.touched && meta.error)} otp placeholder="🎲" size="lg" value={field.value} onChange={value => form.setFieldValue(field.name, value)}>
-                                <PinInputField />
-                                <PinInputField />
-                                <PinInputField />
-                                <PinInputField />
-                                <PinInputField />
+                        <HStack w="full" justifyContent="space-between">
+                            <PinInput isInvalid={Boolean(meta.touched && meta.error)} otp placeholder="🎲" size="md" value={field.value} onChange={value => form.setFieldValue(field.name, value)}>
+                                <PinInputField bgColor="white" />
+                                <PinInputField bgColor="white" />
+                                <PinInputField bgColor="white" />
+                                <PinInputField bgColor="white" />
+                                <PinInputField bgColor="white" />
                             </PinInput>
-                            <IconButton
-                                size="lg"
-                                colorScheme="red"
-                                aria-label="random"
-                                icon={field.value.length === 0 ? <RepeatIcon /> : <DeleteIcon />}
-                                onClick={() => {
-                                    if (field.value.length === 0) {
-                                        form.setFieldValue(field.name, DiceUtil.randomCupOfDices().join(""));
-                                        return;
-                                    }
 
-                                    form.setFieldValue(field.name, "");
-                                }}
-                            />
+                            <HStack>
+                                <IconButton
+                                    colorScheme="red"
+                                    aria-label="random"
+                                    icon={<RepeatIcon />}
+                                    onClick={() => {
+                                        form.setFieldValue(field.name, DiceUtil.randomCupOfDices().join(""));
+                                    }}
+                                />
+
+                                <IconButton
+                                    isDisabled={field.value === ""}
+                                    colorScheme="red"
+                                    aria-label="random"
+                                    icon={<DeleteIcon />}
+                                    onClick={() => {
+                                        form.setFieldValue(field.name, "");
+                                    }}
+                                />
+                            </HStack>
                         </HStack>
                         {Boolean(meta.touched && meta.error) && <FormErrorMessage>{meta.error}</FormErrorMessage>}
                     </FormControl>

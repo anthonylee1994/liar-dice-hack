@@ -1,5 +1,5 @@
 import {CupOfDices, DiceType} from "./DiceUtil/type.ts";
-import {DiceCall, DiceCallWithProbability} from "./GameUtil/type.ts";
+import {DiceCall, ResultProbability} from "./GameUtil/type.ts";
 import {GameUtil} from "./GameUtil";
 
 export const StatsUtil = {
@@ -19,19 +19,17 @@ export const StatsUtil = {
 
         return stats.win / (stats.win + stats.lose);
     },
-    stats(playerCount: number, myCupOfDices: CupOfDices): DiceCallWithProbability[] {
-        const table: DiceCallWithProbability[] = [];
+    stats(playerCount: number, myCupOfDices: CupOfDices): ResultProbability[] {
+        const table: ResultProbability[] = [];
 
         for (let i = playerCount; i <= playerCount * 5; i++) {
             for (let j = 1; j <= 6; j++) {
-                for (let k = 0; k < 2; k++) {
-                    table.push({
-                        totalOfSame: i,
-                        diceType: j as DiceType,
-                        pure: k === 0,
-                        probability: this.winningProbability(playerCount, myCupOfDices, {totalOfSame: i, diceType: j as DiceType, pure: k === 0}),
-                    });
-                }
+                table.push({
+                    totalOfSame: i,
+                    diceType: j as DiceType,
+                    zhaiProbability: this.winningProbability(playerCount, myCupOfDices, {totalOfSame: i, diceType: j as DiceType, pure: true}),
+                    nonZhaiProbability: this.winningProbability(playerCount, myCupOfDices, {totalOfSame: i, diceType: j as DiceType, pure: false}),
+                });
             }
         }
 

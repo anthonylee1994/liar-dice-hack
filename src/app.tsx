@@ -4,12 +4,12 @@ import {TopBar} from "./component/TopBar.tsx";
 import {Formik} from "formik";
 import {StatsUtil} from "./util/StatsUtil.ts";
 import {CupOfDices} from "./util/DiceUtil/type.ts";
-import {DiceCallWithProbability} from "./util/GameUtil/type.ts";
+import {ResultProbability} from "./util/GameUtil/type.ts";
 import {FormContent} from "./component/FormContent";
 import * as Yup from "yup";
 import {ResultTable} from "./component/ResultTable.tsx";
 
-interface FormValues {
+export interface FormValues {
     playerCount: number;
     myDices: string;
 }
@@ -23,10 +23,10 @@ const validationSchema = Yup.object().shape({
 });
 
 export const App = React.memo(() => {
-    const [stats, setStats] = React.useState<DiceCallWithProbability[]>([]);
+    const [stats, setStats] = React.useState<ResultProbability[]>([]);
 
     return (
-        <Box bgColor="red.50">
+        <Box bgColor="red.50" pb="env(safe-area-inset-bottom)">
             <TopBar />
             <Container p={4} maxWidth="sm">
                 <Formik<FormValues>

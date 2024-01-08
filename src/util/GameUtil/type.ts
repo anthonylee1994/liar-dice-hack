@@ -6,4 +6,9 @@ export interface DiceCall {
     pure: boolean;
 }
 
-export type DiceCallWithProbability = DiceCall & {probability: number};
+export interface ResultProbability {
+    totalOfSame: number;
+    diceType: DiceType;
+    zhaiProbability: number;
+    nonZhaiProbability: number;
+}
