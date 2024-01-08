@@ -1,0 +1,21 @@
+{
+    "short_name": "大話骰破解器",
+    "name": "大話骰破解器",
+    "icons": [
+        {
+            "src": "logo192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "logo512.png",
+            "type": "image/png",
+            "sizes": "512x512",
+            "purpose": "maskable"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#F56565",
+    "background_color": "#F56565"
+}
