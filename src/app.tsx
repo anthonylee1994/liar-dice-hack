@@ -44,9 +44,11 @@ export const App = React.memo(() => {
                     <FormContent />
                 </Formik>
             </Container>
-            <Container pt={{base: 1, sm: 2}} px={0} maxWidth="lg">
-                <ResultTable stats={stats} />
-            </Container>
+            {stats.length > 0 && (
+                <Container pt={{base: 1, sm: 2}} px={0} maxWidth="lg">
+                    <ResultTable stats={stats} />
+                </Container>
+            )}
         </Box>
     );
 });
