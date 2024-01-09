@@ -3,8 +3,11 @@ import {Flex, FormControl, FormErrorMessage, FormLabel, HStack, IconButton, PinI
 import {Field, FieldProps} from "formik";
 import {DeleteIcon, RepeatIcon} from "@chakra-ui/icons";
 import {DiceUtil} from "../../util/DiceUtil";
+import {useAppStore} from "../../store/useAppStore.ts";
 
 export const MyCupOfDicesInput = React.memo(() => {
+    const setStats = useAppStore(state => state.setStats);
+
     return (
         <Field name="myDices">
             {({field, meta, form}: FieldProps) => (
@@ -27,6 +30,7 @@ export const MyCupOfDicesInput = React.memo(() => {
                                     icon={<RepeatIcon />}
                                     onClick={() => {
                                         form.setFieldValue(field.name, DiceUtil.randomCupOfDices().join(""));
+                                        setStats([]);
                                     }}
                                 />
 
@@ -37,6 +41,7 @@ export const MyCupOfDicesInput = React.memo(() => {
                                     icon={<DeleteIcon />}
                                     onClick={() => {
                                         form.setFieldValue(field.name, "");
+                                        setStats([]);
                                     }}
                                 />
                             </HStack>
