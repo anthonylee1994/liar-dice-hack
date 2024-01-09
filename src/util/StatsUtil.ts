@@ -4,41 +4,53 @@ import {GameUtil} from "./GameUtil";
 
 export const StatsUtil = {
     winningProbability(playerCount: number, myCupOfDices: CupOfDices, diceCall: DiceCall): number {
-        const stats = {
-            win: 0,
-            lose: 0,
-        };
+        let win = 0;
+        let lose = 0;
 
         for (let i = 0; i < 1_000; i++) {
             if (GameUtil.simulateGameResult(playerCount, myCupOfDices, diceCall)) {
-                stats.win++;
+                win++;
             } else {
-                stats.lose++;
+                lose++;
             }
         }
 
-        return stats.win / (stats.win + stats.lose);
+        return win / (win + lose);
     },
     stats(playerCount: number, myCupOfDices: CupOfDices): ResultProbability[] {
         const table: ResultProbability[] = [];
 
         for (let totalOfSame = playerCount; totalOfSame <= playerCount * 5; totalOfSame++) {
             for (let diceType = 1; diceType <= 6; diceType++) {
+                const diceTypeValue = diceType as DiceType;
+
+                const nonZhaiProbability =
+                    totalOfSame - (playerCount > 2 ? 1 : 0) <= playerCount || diceType === 1
+                        ? null
+                        : this.winningProbability(playerCount, myCupOfDices, {
+                              totalOfSame,
+                              diceType: diceTypeValue,
+                              pure: false,
+                          });
+
+                const zhaiProbability =
+                    totalOfSame <= playerCount && diceTypeValue !== 1 && playerCount > 2
+                        ? null
+                        : this.winningProbability(playerCount, myCupOfDices, {
+                              totalOfSame,
+                              diceType: diceTypeValue,
+                              pure: true,
+                          });
+
                 table.push({
                     totalOfSame,
-                    diceType: diceType as DiceType,
-                    nonZhaiProbability:
-                        totalOfSame - (playerCount > 2 ? 1 : 0) <= playerCount || diceType === 1
-                            ? null
-                            : this.winningProbability(playerCount, myCupOfDices, {totalOfSame: totalOfSame, diceType: diceType as DiceType, pure: false}),
-                    zhaiProbability:
-                        totalOfSame <= playerCount && diceType !== 1 && playerCount > 2
-                            ? null
-                            : this.winningProbability(playerCount, myCupOfDices, {totalOfSame: totalOfSame, diceType: diceType as DiceType, pure: true}),
+                    diceType: diceTypeValue,
+                    nonZhaiProbability,
+                    zhaiProbability,
                 });
             }
         }
 
-        return table.filter(result => Math.round((result.zhaiProbability || 0) * 100) !== 0 || Math.round((result.nonZhaiProbability || 0) * 100) !== 0);
+        return table;
     },
 };
