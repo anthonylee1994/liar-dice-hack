@@ -9,6 +9,6 @@ export interface DiceCall {
 export interface ResultProbability {
     totalOfSame: number;
     diceType: DiceType;
-    zhaiProbability: number;
-    nonZhaiProbability: number;
+    zhaiProbability: number | null;
+    nonZhaiProbability: number | null;
 }

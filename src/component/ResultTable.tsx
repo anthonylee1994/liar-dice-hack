@@ -8,6 +8,26 @@ interface Props {
 }
 
 export const ResultTable = React.memo<Props>(({stats}) => {
+    const tagColor = (probability: number | null) => {
+        if (probability === null) {
+            return "purple";
+        } else if (probability >= 0.68) {
+            return "green";
+        } else if (probability <= 0.34) {
+            return "red";
+        } else {
+            return "yellow";
+        }
+    };
+
+    const tagValue = (probability: number | null) => {
+        if (probability === null) {
+            return "冇得叫";
+        } else {
+            return `${(probability * 100).toFixed(2)}%`;
+        }
+    };
+
     return (
         <TableContainer bgColor="white">
             <Table variant="striped" size="sm">
@@ -40,14 +60,14 @@ export const ResultTable = React.memo<Props>(({stats}) => {
                                 </Flex>
                             </Td>
                             <Td textAlign="right">
-                                <Tag size="sm" colorScheme={stat.nonZhaiProbability > 0.5 ? "green" : "red"}>
-                                    {(stat.nonZhaiProbability * 100).toFixed(2)}%
+                                <Tag size="sm" colorScheme={tagColor(stat.nonZhaiProbability)}>
+                                    {tagValue(stat.nonZhaiProbability)}
                                 </Tag>
                             </Td>
 
                             <Td textAlign="right">
-                                <Tag size="sm" colorScheme={stat.zhaiProbability > 0.5 ? "green" : "red"}>
-                                    {(stat.zhaiProbability * 100).toFixed(2)}%
+                                <Tag size="sm" colorScheme={tagColor(stat.zhaiProbability)}>
+                                    {tagValue(stat.zhaiProbability)}
                                 </Tag>
                             </Td>
                         </Tr>

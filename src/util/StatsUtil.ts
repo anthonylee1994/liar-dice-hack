@@ -22,17 +22,23 @@ export const StatsUtil = {
     stats(playerCount: number, myCupOfDices: CupOfDices): ResultProbability[] {
         const table: ResultProbability[] = [];
 
-        for (let i = playerCount; i <= playerCount * 5; i++) {
-            for (let j = 1; j <= 6; j++) {
+        for (let totalOfSame = playerCount; totalOfSame <= playerCount * 5; totalOfSame++) {
+            for (let diceType = 1; diceType <= 6; diceType++) {
                 table.push({
-                    totalOfSame: i,
-                    diceType: j as DiceType,
-                    zhaiProbability: this.winningProbability(playerCount, myCupOfDices, {totalOfSame: i, diceType: j as DiceType, pure: true}),
-                    nonZhaiProbability: this.winningProbability(playerCount, myCupOfDices, {totalOfSame: i, diceType: j as DiceType, pure: false}),
+                    totalOfSame,
+                    diceType: diceType as DiceType,
+                    nonZhaiProbability:
+                        totalOfSame - (playerCount > 2 ? 1 : 0) <= playerCount || diceType === 1
+                            ? null
+                            : this.winningProbability(playerCount, myCupOfDices, {totalOfSame: totalOfSame, diceType: diceType as DiceType, pure: false}),
+                    zhaiProbability:
+                        totalOfSame <= playerCount && diceType !== 1 && playerCount > 2
+                            ? null
+                            : this.winningProbability(playerCount, myCupOfDices, {totalOfSame: totalOfSame, diceType: diceType as DiceType, pure: true}),
                 });
             }
         }
 
-        return table;
+        return table.filter(result => Math.round((result.zhaiProbability || 0) * 100) !== 0 || Math.round((result.nonZhaiProbability || 0) * 100) !== 0);
     },
 };
