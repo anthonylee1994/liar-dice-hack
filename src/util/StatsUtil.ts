@@ -24,15 +24,17 @@ export const StatsUtil = {
         }
         return false;
     },
-    async stats(playerCount: number, myCupOfDices: CupOfDices, push: (probability: ResultProbability) => Promise<void>) {
+    stats(playerCount: number, myCupOfDices: CupOfDices) {
+        const results: ResultProbability[] = [];
+
         for (let totalOfSame = playerCount; totalOfSame <= playerCount * 5; totalOfSame++) {
             for (let diceType = 1; diceType <= 6; diceType++) {
                 const diceTypeValue = diceType as DiceType;
 
-                const nonPureProbability = this.winningProbability(playerCount, myCupOfDices, {totalOfSame, diceType: diceTypeValue, pure: false});
-                const pureProbability = this.winningProbability(playerCount, myCupOfDices, {totalOfSame, diceType: diceTypeValue, pure: true});
+                const nonPureProbability = this.winningProbability(playerCount, myCupOfDices, {totalOfSame: totalOfSame, diceType: diceTypeValue, pure: false});
+                const pureProbability = this.winningProbability(playerCount, myCupOfDices, {totalOfSame: totalOfSame, diceType: diceTypeValue, pure: true});
 
-                await push({
+                results.push({
                     totalOfSame,
                     diceType: diceTypeValue,
                     nonPureProbability: this.hideProbability(playerCount, totalOfSame, diceTypeValue, false) ? null : nonPureProbability,
@@ -40,5 +42,7 @@ export const StatsUtil = {
                 });
             }
         }
+
+        return results;
     },
 };
