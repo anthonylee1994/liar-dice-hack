@@ -1,6 +1,5 @@
-import {CupOfDices, DiceType} from "./DiceUtil/type.ts";
-import {DiceCall, ResultProbability} from "./GameUtil/type.ts";
-import {GameUtil} from "./GameUtil";
+import {GameUtil} from "./GameUtil.ts";
+import {CupOfDices, DiceCall, DiceType, ResultProbability} from "./type.ts";
 
 export const StatsUtil = {
     winningProbability(playerCount: number, myCupOfDices: CupOfDices, diceCall: DiceCall): number {

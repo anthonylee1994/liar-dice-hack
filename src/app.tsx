@@ -3,11 +3,11 @@ import {Box, Container} from "@chakra-ui/react";
 import {TopBar} from "./component/TopBar.tsx";
 import {Formik} from "formik";
 import {StatsUtil} from "./util/StatsUtil.ts";
-import {CupOfDices} from "./util/DiceUtil/type.ts";
 import {FormContent} from "./component/FormContent";
 import * as Yup from "yup";
 import {ResultTable} from "./component/ResultTable.tsx";
 import {useAppStore} from "./store/useAppStore.ts";
+import {CupOfDices} from "./util/type.ts";
 
 export interface FormValues {
     playerCount: number;

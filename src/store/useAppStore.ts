@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import {ResultProbability} from "../util/GameUtil/type.ts";
+import {ResultProbability} from "../util/type.ts";
 
 interface UseAppStore {
     stats: ResultProbability[];

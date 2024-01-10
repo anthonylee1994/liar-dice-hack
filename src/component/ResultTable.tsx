@@ -1,7 +1,7 @@
 import React from "react";
 import {Box, Flex, Table, TableContainer, Tag, Tbody, Td, Th, Thead, Tr} from "@chakra-ui/react";
-import {ResultProbability} from "../util/GameUtil/type.ts";
 import {Dice} from "./Dice.tsx";
+import {ResultProbability} from "../util/type.ts";
 
 interface Props {
     stats: ResultProbability[];
