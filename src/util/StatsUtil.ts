@@ -16,40 +16,29 @@ export const StatsUtil = {
 
         return win / (win + lose);
     },
-    stats(playerCount: number, myCupOfDices: CupOfDices): ResultProbability[] {
-        const table: ResultProbability[] = [];
-
+    hideProbability(playerCount: number, totalOfSame: number, diceType: DiceType, pure: boolean) {
+        if (pure && totalOfSame <= playerCount && diceType !== 1 && playerCount > 2) {
+            return true;
+        } else if (!pure && (totalOfSame - (playerCount > 2 ? 1 : 0) <= playerCount || diceType === 1)) {
+            return true;
+        }
+        return false;
+    },
+    async stats(playerCount: number, myCupOfDices: CupOfDices, push: (probability: ResultProbability) => Promise<void>) {
         for (let totalOfSame = playerCount; totalOfSame <= playerCount * 5; totalOfSame++) {
             for (let diceType = 1; diceType <= 6; diceType++) {
                 const diceTypeValue = diceType as DiceType;
 
-                const nonPureProbability =
-                    totalOfSame - (playerCount > 2 ? 1 : 0) <= playerCount || diceType === 1
-                        ? null
-                        : this.winningProbability(playerCount, myCupOfDices, {
-                              totalOfSame,
-                              diceType: diceTypeValue,
-                              pure: false,
-                          });
+                const nonPureProbability = this.winningProbability(playerCount, myCupOfDices, {totalOfSame, diceType: diceTypeValue, pure: false});
+                const pureProbability = this.winningProbability(playerCount, myCupOfDices, {totalOfSame, diceType: diceTypeValue, pure: true});
 
-                const pureProbability =
-                    totalOfSame <= playerCount && diceTypeValue !== 1 && playerCount > 2
-                        ? null
-                        : this.winningProbability(playerCount, myCupOfDices, {
-                              totalOfSame,
-                              diceType: diceTypeValue,
-                              pure: true,
-                          });
-
-                table.push({
+                await push({
                     totalOfSame,
                     diceType: diceTypeValue,
-                    nonPureProbability,
-                    pureProbability,
+                    nonPureProbability: this.hideProbability(playerCount, totalOfSame, diceTypeValue, false) ? null : nonPureProbability,
+                    pureProbability: this.hideProbability(playerCount, totalOfSame, diceTypeValue, true) ? null : pureProbability,
                 });
             }
         }
-
-        return table;
     },
 };

@@ -16,7 +16,8 @@ export interface FormValues {
 
 export const App = React.memo(() => {
     const stats = useAppStore(state => state.stats);
-    const setStats = useAppStore(state => state.setStats);
+    const addStat = useAppStore(state => state.addStat);
+    const clearStats = useAppStore(state => state.clearStats);
 
     return (
         <Box bgColor="red.50" pb="env(safe-area-inset-bottom)">
@@ -34,9 +35,15 @@ export const App = React.memo(() => {
                         playerCount: 2,
                         myDices: "",
                     }}
-                    onSubmit={(values, formikHelpers) => {
+                    onSubmit={async (values, formikHelpers) => {
                         formikHelpers.setSubmitting(true);
-                        setStats(StatsUtil.stats(values.playerCount, values.myDices.split("").map(v => parseInt(v, 10)) as CupOfDices));
+                        clearStats();
+
+                        await StatsUtil.stats(values.playerCount, values.myDices.split("").map(v => parseInt(v, 10)) as CupOfDices, async x => {
+                            addStat(x);
+                            await new Promise(resolve => setTimeout(resolve, 0));
+                        });
+
                         formikHelpers.setSubmitting(false);
                     }}
                 >
