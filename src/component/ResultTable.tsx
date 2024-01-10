@@ -60,14 +60,14 @@ export const ResultTable = React.memo<Props>(({stats}) => {
                                 </Flex>
                             </Td>
                             <Td textAlign="right">
-                                <Tag size="sm" colorScheme={tagColor(stat.nonZhaiProbability)}>
-                                    {tagValue(stat.nonZhaiProbability)}
+                                <Tag size="sm" colorScheme={tagColor(stat.nonPureProbability)}>
+                                    {tagValue(stat.nonPureProbability)}
                                 </Tag>
                             </Td>
 
                             <Td textAlign="right">
-                                <Tag size="sm" colorScheme={tagColor(stat.zhaiProbability)}>
-                                    {tagValue(stat.zhaiProbability)}
+                                <Tag size="sm" colorScheme={tagColor(stat.pureProbability)}>
+                                    {tagValue(stat.pureProbability)}
                                 </Tag>
                             </Td>
                         </Tr>

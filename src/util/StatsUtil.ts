@@ -24,7 +24,7 @@ export const StatsUtil = {
             for (let diceType = 1; diceType <= 6; diceType++) {
                 const diceTypeValue = diceType as DiceType;
 
-                const nonZhaiProbability =
+                const nonPureProbability =
                     totalOfSame - (playerCount > 2 ? 1 : 0) <= playerCount || diceType === 1
                         ? null
                         : this.winningProbability(playerCount, myCupOfDices, {
@@ -33,7 +33,7 @@ export const StatsUtil = {
                               pure: false,
                           });
 
-                const zhaiProbability =
+                const pureProbability =
                     totalOfSame <= playerCount && diceTypeValue !== 1 && playerCount > 2
                         ? null
                         : this.winningProbability(playerCount, myCupOfDices, {
@@ -45,8 +45,8 @@ export const StatsUtil = {
                 table.push({
                     totalOfSame,
                     diceType: diceTypeValue,
-                    nonZhaiProbability,
-                    zhaiProbability,
+                    nonPureProbability,
+                    pureProbability,
                 });
             }
         }
